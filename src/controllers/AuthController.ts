@@ -115,7 +115,7 @@ export class AuthController {
     }
 
     try {
-      return res.status(200).json({msg: 'Valid token...'})
+      return res.status(200).json({msg: 'Valid token, asign a new password'})
     } catch (error) {
       res.status(500).json({ error: 'There was an error' });
     }
