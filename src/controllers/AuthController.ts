@@ -173,7 +173,7 @@ export class AuthController {
       return res.status(401).json({error: error.message})
     }
 
-    res.status(200).json('Correct password')
+    res.status(200).json({msg: 'Correct password'})
   }
 
 
