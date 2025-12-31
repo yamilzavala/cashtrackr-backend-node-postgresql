@@ -52,6 +52,14 @@ router.get('/user',
     AuthController.user
 )
 
+router.put('/user',
+    authenticate,
+    body('email').isEmail().withMessage('Invalid email'),
+    body('name').notEmpty().withMessage('Name required'),
+    handleInputErrors,
+    AuthController.updateUser
+)
+
 router.post('/update-password',
     authenticate,
     body('current_password').notEmpty().withMessage('current_password required'),

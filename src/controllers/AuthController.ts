@@ -159,7 +159,7 @@ export class AuthController {
     user.password = await hashPassword(new_password)
     await user.save()
 
-    res.status(200).json('Password updated successfully')
+    res.status(200).json({msg: 'Password updated successfully'})
   }
 
   static checkPassword = async (req: Request, res: Response) => {
@@ -176,5 +176,26 @@ export class AuthController {
     res.status(200).json({msg: 'Correct password'})
   }
 
+  static updateUser = async (req: Request, res: Response) => {
+      const {name, email} = req.body;
+      const {id} = req.user;
+
+      try {
+        const existingUser = await User.findOne({where: {email}})
+        if(existingUser && existingUser.id !== req.user.id ) {
+          const error = new Error('Email is being used by other user, try another email')
+          return res.status(409).json({error: error.message})
+        }
+  
+        await User.update({email, name}, {
+          where: {id}
+        })
+  
+        res.status(200).json({msg: 'Profile updated successfully'})
+      } catch (error) {
+        res.status(500).json({ error: 'There was an error' });
+      }
+
+    }
 
 }

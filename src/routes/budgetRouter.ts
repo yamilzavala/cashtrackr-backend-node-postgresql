@@ -2,7 +2,7 @@ import { Router } from "express";
 import { BudgetController } from "../controllers/BudgetController";
 import { handleInputErrors } from "../middleware/validation";
 import { validateBudgetId, validateBudgetExist, validateBudgetInput, hasAccess } from "../middleware/budget";
-import { validateExpenseExist, validateExpenseId } from "../middleware/expense";
+import { belogsToBudget, validateExpenseExist, validateExpenseId } from "../middleware/expense";
 import { ExpensesController } from "../controllers/ExpenseController";
 import { validateExpenseInput } from "../middleware/expense";
 import { authenticate } from "../middleware/auth";
@@ -17,6 +17,7 @@ router.param('budgetId', hasAccess)
 
 router.param('expenseId', validateExpenseId)
 router.param('expenseId', validateExpenseExist)
+router.param('expenseId', belogsToBudget)
 
 // Routes for budgets
 router.get('/', BudgetController.getAll)
